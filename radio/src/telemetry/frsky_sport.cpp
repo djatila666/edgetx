@@ -313,7 +313,13 @@ void sportProcessTelemetryPacketWithoutCrc(uint8_t module, uint8_t origin, const
         telemetryData.setSwr(module, SPORT_DATA_U8(packet));
       }
     }
+    else if (dataId == BATT_ID) {
+      // Mostrar RxBt (voltaje receptor) también en ACCST
+      // Originalmente solo visible en ACCESS
+      sportProcessTelemetryPacket(dataId, 0, instance, SPORT_DATA_U8(packet), UNIT_VOLTS);
+     }
 
+  
     // here we discard the frame if it comes from an origin which has RSSI = 0
     // (RxBt and RSSI are sent in a loop by the module in some situations)
     if (TELEMETRY_STREAMING() &&
